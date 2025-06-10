@@ -6,7 +6,7 @@ from datetime import datetime
 from typing import Optional
 
 # Imports from your modules
-from Scraper import stage_one_extract_and_save, stage_two_enrich_search_results
+from Scraper_v1 import stage_one_extract_and_save, stage_two_enrich_search_results
 from video_factory_V2 import build_prompt, generate_content, save_to_file, extract_visual_keywords
 from images_factory import search_and_save_images
 
