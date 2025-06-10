@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo "Requirements:"
-curl -s https://raw.githubusercontent.com/aismael2022/GVT-V2.1/main/requirements.txt
+curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/requirements.txt
 
 # Check if pip3 is installed
 if ! command -v pip3 >/dev/null 2>&1; then
@@ -12,9 +12,9 @@ fi
 echo -e "\n⏳ Downloading necessary files... This may take a few minutes depending on your internet connection.\n"
 
 # Install Python dependencies quietly
-pip3 install -q -r <(curl -s https://raw.githubusercontent.com/aismael2022/GVT-V2.1/main/requirements.txt) > /dev/null 2>&1
+pip3 install -q -r <(curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/requirements.txt) > /dev/null 2>&1
 
 # Clear terminal and run the script
 clear
 echo -e "\n🚀 Starting ..."
-curl -s https://raw.githubusercontent.com/aismael2022/GVT-V2.1/main/Orchestrator.py | python3 -
+curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/Orchestrator.py | python3 -
