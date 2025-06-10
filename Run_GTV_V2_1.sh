@@ -1,20 +1,23 @@
 #!/bin/bash
 
-echo "Requirements:"
-curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/requirements.txt
+echo "⏳ Installing requirements..."
 
-# Check if pip3 is installed
+# Check for pip3 and install if missing
 if ! command -v pip3 >/dev/null 2>&1; then
-  echo -e "\n⚙️ pip3 not found. Attempting to install pip..."
+  echo -e "\n⚙️ pip3 not found. Installing..."
   curl -sS https://bootstrap.pypa.io/get-pip.py | python3
 fi
 
-echo -e "\n⏳ Downloading necessary files... This may take a few minutes depending on your internet connection.\n"
+# Clone repo if not exists
+if [ ! -d "GTV-V2.1" ]; then
+  git clone https://github.com/aismael2022/GTV-V2.1.git
+fi
 
-# Install Python dependencies quietly
-pip3 install -q -r <(curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/requirements.txt) > /dev/null 2>&1
+cd GTV-V2.1 || exit 1
 
-# Clear terminal and run the script
+# Install dependencies
+pip3 install -r requirements.txt > /dev/null 2>&1
+
 clear
-echo -e "\n🚀 Starting ..."
-curl -s https://raw.githubusercontent.com/aismael2022/GTV-V2.1/main/Orchestrator.py | python3 -
+echo -e "\n🚀 Starting NOVA ClIP Workflow..."
+python3 Orchestrator.py
