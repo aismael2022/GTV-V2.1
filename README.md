@@ -16,7 +16,7 @@ A powerful scraper that extracts trending TV personalities from Google Trends an
 
 ## 🚀  How to run?
 From Terminal: 
-curl -s https://raw.githubusercontent.com/aismael2022/GVT-V2/main/Run_GTV_V2_1.sh | bash
+curl -s https://raw.githubusercontent.com/aismael2022/GVT-V2.1/main/Run_GTV_V2_1.sh | bash
 
 
 ### File saving
