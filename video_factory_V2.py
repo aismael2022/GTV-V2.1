@@ -3,8 +3,10 @@ import openai
 import json
 from typing import List, Optional
 
-# OpenAI Key
-openai.api_key = "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"
+# Replace with your actual API key
+openai.api_key="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"
+
+
 
 def build_prompt(topic: str, video_type: str, video_duration: str) -> str:
     return f"""
