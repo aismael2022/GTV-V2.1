@@ -4,7 +4,7 @@ import sys
 import time
 import random
 import datetime
-import wikipedia
+#import wikipedia
 import warnings
 import pyfiglet
 import pandas as pd
@@ -55,8 +55,8 @@ def load_models() -> Dict[str, Union[Language, TransformerModel, None]]:
 def load_spacy_model() -> Union[Language, None]:
     """Load spaCy model with fallback logic."""
     model_names = ['en_core_web_lg', 'en_core_web_sm']
-    ascii_art = pyfiglet.figlet_format("NOVA ClIP", font="standard")
-    print(ascii_art)
+    #ascii_art = pyfiglet.figlet_format("NOVA ClIP", font="standard")
+    #print(ascii_art)
     for model_name in model_names:
         try:
             print(f"🔄 Loading {model_name}...")
@@ -106,7 +106,7 @@ def is_person(text: str) -> bool:
     non_person_terms = {
         'tv', 'show', 'movie', 'film', 'series', 'season',
         'song', 'music', 'award', 'channel', 'network',
-        'episode', 'live', 'stream', 'premiere', 'finale'
+        'episode', 'live', 'stream', 'premiere', 'finale', 'trophie', 'vs'
     }
     
     text_lower = text.lower()
@@ -172,7 +172,7 @@ def scrape_trends(driver: webdriver.Chrome, timeout: int = 30, max_names: int = 
                 )
             )
             names.update(clean_name(item.text) for item in items if item.text)
-            time.sleep(random.uniform(2, 4))
+            time.sleep(random.uniform(2, 3))
         except Exception as e:
             print(f"⚠️ Scraping iteration error: {e}")
             break
@@ -284,7 +284,7 @@ def stage_one_extract_and_save() -> str:
     try:
         driver = configure_driver()
         driver.get("https://trends.google.com/tv/?geo=US&rows=5&cols=5")
-        print("🔄 Processing...")
+        print("🔄 Processing... [Capture results for 10 seconds]")
         
         names = scrape_trends(driver)
         if not names:
@@ -306,11 +306,14 @@ def stage_one_extract_and_save() -> str:
                 print(f"⚠️ Name processing error: {e}")
 
         df = pd.DataFrame(data)
+        df = df[df["Is Person"] == True]
+        
         #filename = f"google_trends_tv_results_{datetime.datetime.now().strftime('%Y%m%d_%H%M')}.xlsx"
         script_dir = os.path.dirname(os.path.abspath(__file__))
         timestamp = datetime.now().strftime("%d_%m_%Y_%I-%M%p")
         filename = os.path.join(script_dir, f"google_trends_tv_results_{timestamp}.xlsx")
         df.to_excel(filename, index=False)
+        print(f"📁 Data saved to {filename}")
         return filename
 
     except Exception as e:
@@ -358,7 +361,7 @@ def stage_two_enrich_search_results(filename: str) -> None:
             df.at[idx, "Wiki_Summary"] = results.get("wiki_summary", "Summary not available")  # <-- Add summary here
             df.to_excel(filename, index=False)
 
-            sleep_time = random.randint(5, 8)
+            sleep_time = random.randint(2, 4)
             print(f"⏳ Sleeping {sleep_time} seconds...")
             time.sleep(sleep_time)
 
@@ -376,7 +379,7 @@ if __name__ == "__main__":
         results_file = stage_one_extract_and_save()
         if results_file:
             print(f"\n🔄 Getting Google Search Results...")
-            time.sleep(15) #stay on page for 15 seconds
+            time.sleep(10) #stay on page for 10 seconds
             stage_two_enrich_search_results(results_file)
     except KeyboardInterrupt:
         print("\n🛑 Process interrupted by user")
